@@ -11,32 +11,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isPressed = false;
+  bool isPressed = true;
+  bool isPressedPython = false;
+  bool isQgis = false;
   @override
   Widget build(BuildContext context) {
+    //TODO width with provider
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         appBar: AppBar(
-          leading: Row(children: [
-            Icon(FontAwesomeIcons.bars),
-          ]),
+          title: Text("Idolent Rock"),
         ),
         body: Row(
           children: [
             Flexible(
+              flex: 1,
               child: Container(
-                width: 200,
                 color: Colors.black12,
-                height: MediaQuery.of(context).size.height,
                 child: Column(
                   children: [
                     FlatButton(
+                      highlightColor: Colors.blue,
                       color: isPressed ? Colors.black12 : null,
                       onPressed: () {
                         setState(() {
-                          if (isPressed)
-                            isPressed = false;
-                          else
-                            isPressed = true;
+                          isPressed = true;
+                          isPressedPython = false;
                         });
                       },
                       child: Container(
@@ -88,57 +89,35 @@ class _HomePageState extends State<HomePage> {
                     ]),
                     FlatButton(
                       highlightColor: Colors.blue,
-                      onPressed: () {},
+                      color: isPressedPython ? Colors.black12 : null,
+                      onPressed: () {
+                        setState(() {
+                          isPressed = false;
+                          isPressedPython = true;
+                        });
+                      },
                       child: Container(
                         width: 200,
                         height: 100,
+                        decoration: BoxDecoration(
+                          border: Border(
+                              left: BorderSide(
+                                  width: 3.0,
+                                  color: isPressedPython
+                                      ? Colors.lightBlueAccent
+                                      : Colors.black12)),
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               FontAwesomeIcons.python,
-                              color: Colors.grey,
+                              color: isPressedPython
+                                  ? Colors.lightBlueAccent
+                                  : Colors.grey,
                             ),
                             SizedBox(height: 20),
                             Text("Python + SIG")
-                          ],
-                        ),
-                      ),
-                    ),
-                    FlatButton(
-                      highlightColor: Colors.blue,
-                      onPressed: () {},
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.mapMarkedAlt,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(height: 20),
-                            Text("QGIS")
-                          ],
-                        ),
-                      ),
-                    ),
-                    FlatButton(
-                      highlightColor: Colors.blue,
-                      onPressed: () {},
-                      child: Container(
-                        width: 200,
-                        height: 100,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.robot,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(height: 20),
-                            Text("Machine/Deep Learning")
                           ],
                         ),
                       ),
@@ -147,11 +126,71 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Flexible(
-              child: ListView(
-                children: [],
-              ),
-            )
+            if (isPressed)
+              Flexible(
+                flex: 6,
+                child: ListView(
+                  children: [
+                    Image.network(""),
+                  ],
+                ),
+              )
+            else if (isPressedPython)
+              Flexible(
+                flex: 6,
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Rasters"),
+                    ),
+                    Card(
+                      color: Colors.lightGreenAccent,
+                      child: ListTile(
+                        trailing: Text("Fácil"),
+                        title: Text("Tutorial 1 "),
+                        subtitle: Text("Pandas, Geopandas"),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.lightGreenAccent,
+                      child: ListTile(
+                        trailing: Text("Fácil"),
+                        title: Text("Tutorial 1 "),
+                        subtitle: Text("Pandas, Geopandas"),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.purpleAccent,
+                      child: ListTile(
+                        trailing: Text("Médio"),
+                        title: Text("Tutorial 1 "),
+                        subtitle: Text("Convertendo"),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.orange,
+                      child: ListTile(
+                        trailing: Text("Difícil"),
+                        title: Text("Tutorial 1 "),
+                        subtitle: Text("Convertendo"),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Vetores"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Landsat"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Sentinel"),
+                    ),
+                  ],
+                ),
+              )
           ],
         ));
   }
